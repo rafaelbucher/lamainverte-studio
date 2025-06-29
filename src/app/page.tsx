@@ -1,4 +1,4 @@
-// src/app/page.tsx - Version sans import pageMetadata
+// src/app/page.tsx - Avec section main
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -65,7 +65,7 @@ export default function Home() {
   const titleStyle: React.CSSProperties = {
     fontFamily: 'var(--font-primary)',
     fontWeight: 'var(--font-weight-normal)',
-    fontSize: 'var(--font-size-3xl)',
+    fontSize: 'var(--font-size-5xl)',
     color: 'var(--color-text-primary)',
     margin: 'var(--space-8) 0',
     lineHeight: 'var(--line-height-tight)'
@@ -186,6 +186,348 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Section Main */}
+      <main className="container-full" style={{
+        width: '100%',
+        padding: '0 var(--space-8)',
+        marginBottom: 'var(--space-20)'
+      }}>
+        
+        {/* Section 1 - Une colonne avec typo 3xl */}
+        <section className="row" style={{
+          paddingTop: '75px',
+          borderTop: '1px solid #e7e7eb',
+          marginTop: '75px',
+          marginBottom: 'var(--space-20)'
+        }}>
+          <div className="col-md-7 col-md-offset-3 col-xs-12" style={{
+            maxWidth: '900px',
+            marginLeft: '25%', // offset-3 = 25%
+            width: '75%' // col-9 = 75%
+          }}>
+            <h2 style={{
+              fontFamily: 'var(--font-primary)',
+              fontWeight: 'var(--font-weight-normal)',
+              fontSize: 'var(--font-size-4xl)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 'var(--line-height-tight)',
+              marginBottom: 'var(--space-8)'
+            }}>
+              Accélérez la transformation responsable de vos produits digitaux
+            </h2>
+            
+            <p style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'var(--font-size-lg)',
+              lineHeight: 'var(--line-height-relaxed)',
+              color: 'var(--color-text-secondary)',
+              marginBottom: 'var(--space-6)'
+            }}>
+              La main verte studio aide agences, PME et grands comptes à concevoir des solutions numériques accessibles, performantes et respectueuses de l'environnement.
+            </p>
+            
+            <p style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'var(--font-size-lg)',
+              lineHeight: 'var(--line-height-relaxed)',
+              color: 'var(--color-text-secondary)'
+            }}>
+              De l'audit d'accessibilité (RGAA) au conseil en numérique responsable (RGESN), jusqu'à l'écoconception UX/UI (en partenariat avec Nortis), nous accompagnons vos équipes pour bâtir un numérique plus inclusif, sobre et conforme aux exigences réglementaires.
+            </p>
+          </div>
+        </section>
+
+        {/* Section 2 - Deux colonnes avec texte courant */}
+        <section className="row" style={{
+          paddingTop: '75px',
+          borderTop: '1px solid #e7e7eb',
+          marginTop: '75px',
+          marginBottom: 'var(--space-20)'
+        }}>
+          <div className="col-md-9 col-md-offset-3 col-xs-12" style={{
+            maxWidth: '900px',
+            marginLeft: '25%',
+            width: '75%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 'var(--space-8)'
+          }}>
+            <div>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-lg)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-lg)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)'
+              }}>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              </p>
+            </div>
+            <div>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-lg)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error.
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-lg)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)'
+              }}>
+                Sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3 - Trois colonnes avec textes et listes */}
+        <section className="row" style={{
+          paddingTop: '75px',
+          borderTop: '1px solid #e7e7eb',
+          marginTop: '75px',
+          marginBottom: 'var(--space-20)'
+        }}>
+          <div className="col-md-9 col-md-offset-3 col-xs-12" style={{
+            maxWidth: '900px',
+            marginLeft: '25%',
+            width: '75%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 'var(--space-6)'
+          }}>
+            {/* Colonne 1 */}
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--font-primary)',
+                fontWeight: 'var(--font-weight-medium)',
+                fontSize: 'var(--font-size-xl)',
+                color: 'var(--color-text-primary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Lorem ipsum
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-base)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Dolor sit amet consectetur adipiscing elit sed do eiusmod tempor.
+              </p>
+              <ul style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0
+              }}>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Lorem ipsum dolor
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Consectetur adipiscing
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Sed do eiusmod
+                </li>
+              </ul>
+            </div>
+
+            {/* Colonne 2 */}
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--font-primary)',
+                fontWeight: 'var(--font-weight-medium)',
+                fontSize: 'var(--font-size-xl)',
+                color: 'var(--color-text-primary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Consectetur
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-base)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Adipiscing elit sed do eiusmod tempor incididunt ut labore.
+              </p>
+              <ul style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0
+              }}>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Tempor incididunt
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Ut labore dolore
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Magna aliqua
+                </li>
+              </ul>
+            </div>
+
+            {/* Colonne 3 */}
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--font-primary)',
+                fontWeight: 'var(--font-weight-medium)',
+                fontSize: 'var(--font-size-xl)',
+                color: 'var(--color-text-primary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Adipiscing
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'var(--font-size-base)',
+                lineHeight: 'var(--line-height-relaxed)',
+                color: 'var(--color-text-secondary)',
+                marginBottom: 'var(--space-4)'
+              }}>
+                Elit sed do eiusmod tempor incididunt ut labore et dolore.
+              </p>
+              <ul style={{
+                listStyle: 'none',
+                margin: 0,
+                padding: 0
+              }}>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Enim ad minim
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 'var(--space-2)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Veniam quis nostrud
+                </li>
+                <li style={{
+                  fontFamily: 'var(--font-primary)',
+                  fontSize: 'var(--font-size-base)',
+                  color: 'var(--color-text-secondary)',
+                  paddingLeft: 'var(--space-4)',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: 'var(--color-primary)'
+                  }}>•</span>
+                  Exercitation ullamco
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </main>
 
       {/* Footer */}
       <footer style={{

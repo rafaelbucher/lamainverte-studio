@@ -1,6 +1,8 @@
-/* src/app/globals.css - Version finale */
+/* src/app/globals.css - Version avec grille */
 @import 'normalize.css';
 @import '../styles/tokens.css';
+@import '../styles/spacing.css';
+@import '../styles/grid.css';
 @import '../styles/utilities.css';
 
 /* === RESET MINIMAL === */
@@ -67,19 +69,6 @@ h1, h2, h3, h4, h5, h6 {
 /* === RESET PARAGRAPHES === */
 p {
   margin: 0;
-}
-
-/* === CONTENEUR PRINCIPAL === */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding: 0 var(--space-8);
-  }
 }
 
 /* === FOCUS MANAGEMENT === */

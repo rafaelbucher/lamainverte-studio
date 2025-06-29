@@ -1,0 +1,24 @@
+/* tokens.css */
+:root {
+  /* Default Mode (RGAA - lumineux, écolo, green tech) */
+  --default-white: #FFFFFF;
+  --default-black: #111111;
+  --default-green: #3EDC81;
+  --default-yellow: #F9E547;
+  
+  /* Eco Mode (RGESN - sobre, gris contrasté) */
+  --eco-white: #FFFFFF;
+  --eco-black: #111111;
+  --eco-gray-light: #E5E5E5;
+  --eco-gray-dark: #4B4B4B;
+  
+  /* Raccourcis */
+  --primary: #3EDC81;
+  --secondary: #F9E547;
+  --accent: #4B4B4B;
+  --neutral: #E5E5E5;
+  
+  /* Polices */
+  --font-primary: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --font-secondary: 'Palatino', 'Palatino Linotype', serif;
+}

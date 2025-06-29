@@ -203,8 +203,13 @@ export default function Home() {
           marginTop: '75px',
           marginBottom: 'var(--space-20)'
         }}>
-          <div className="col-md-4 col-offset-3 col-xs-12"
-            style={{padding: '75px 0' }}>
+          <div className="col-md-5 col-offset-2 col-xs-12"
+            style={{ padding: '75px'
+            }}>            
+            <ChiffresSlider />
+          </div>
+          <div className="col-md-3 col-xs-12 flex items-center"
+            style={{padding: '0' }}>
             <div>
 
               {/* Nos engagements */}
@@ -231,7 +236,7 @@ export default function Home() {
 
               {/* Nos offres */}
               <div style={{
-                marginTop: '75px'
+                marginTop: '30px'
                 }}>
                 <h3 className="text-xl font-medium text-primary mb-4">
                   Nos offres
@@ -264,11 +269,6 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="col-md-5 col-xs-12"
-            style={{ backgroundColor: 'var(--color-primary)', padding: '50px'
-            }}>            
-            <ChiffresSlider />
           </div>
         </section>
 

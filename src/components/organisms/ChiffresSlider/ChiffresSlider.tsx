@@ -128,21 +128,38 @@ export default function ChiffresSlider({
             <div
               key={index}
               style={{
+                position: 'relative',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'start',
                 textAlign: 'left',
-                padding: 'var(--space-4)'
+                padding: '75px',
+                borderRadius: '24px',
+                backgroundColor: 'var(--color-primary)'
               }}
             >
+                <h3 style={{
+                    position: 'absolute',
+                    top: '45px',
+                    left: '75px',
+                    fontSize: 'var(--font-size-2xl)',
+                    fontWeight: 'var(--font-weight-bold)',
+                    lineHeight: 'var(--line-height-tight)',
+                    color: 'var(--color-black)',
+                    marginBottom: 'var(--space-6)',
+                    textAlign: 'left'
+                }}>
+                    Chiffres clés <br/>du numérique responsable
+                </h3>
               {/* Chiffre en grand */}
               <div style={{
-                fontSize: 'var(--font-size-6xl)',
+                fontSize: 'var(--font-size-5xl)',
                 fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--color-black)',
+                color: 'var(--color-white)',
                 lineHeight: 'var(--line-height-tight)',
-                marginBottom: 'var(--space-4)'
+                marginBottom: 'var(--space-4)',
+                marginTop: 'var(--space-12)'
               }}>
                 {slide.number}
               </div>
@@ -154,7 +171,7 @@ export default function ChiffresSlider({
                 color: 'var(--color-black)',
                 lineHeight: 'var(--line-height-relaxed)',
                 margin: 0,
-                marginRight: '75px'
+                marginRight: '50px'
               }}>
                 {slide.text}
               </p>
@@ -166,7 +183,7 @@ export default function ChiffresSlider({
       {/* Navigation bullets verticale */}
       <div style={{
         position: 'absolute',
-        right: 'var(--space-4)',
+        right: 'var(--space-8)',
         top: '50%',
         transform: 'translateY(-50%)',
         display: 'flex',
@@ -194,11 +211,11 @@ export default function ChiffresSlider({
       {/* Instructions navigation (optionnel) */}
       <div style={{
         position: 'absolute',
-        bottom: 'var(--space-2)',
-        left: '50%',
+        bottom: '25px',
+        left: '145px',
         transform: 'translateX(-50%)',
         fontSize: 'var(--font-size-xs)',
-        color: 'rgba(0, 0, 0, 0.6)',
+        color: 'var(--color-white)',
         textAlign: 'left'
       }}>
         ↑↓ ou swipe pour naviguer

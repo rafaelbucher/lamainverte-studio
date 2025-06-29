@@ -1,0 +1,104 @@
+/* src/app/components/EcoModeSwitch/EcoModeSwitch.module.css */
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  z-index: var(--z-toast);
+}
+
+.fixed {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+}
+
+.relative {
+  position: relative;
+}
+
+/* === LABEL MODE ACTIF === */
+.modeLabel {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+/* === SWITCH MINIMALISTE === */
+.switch {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.switch:focus {
+  outline: none;
+}
+
+/* === CARRÉS === */
+.circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 0; /* Carrés au lieu de cercles */
+  border: 2px solid;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Carré mode standard (gauche) */
+.circleStandard {
+  border-color: var(--color-accent);
+  background-color: var(--color-white);
+}
+
+.circleStandardActive {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+}
+
+/* Carré mode éco (droite) */
+.circleEco {
+  border-color: var(--color-accent);
+  background-color: var(--color-white);
+}
+
+.circleEcoActive {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+}
+
+/* === HOVER EFFECTS === */
+.switch:hover .circle {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-sm);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .fixed {
+    bottom: var(--space-6);
+    right: var(--space-6);
+  }
+  
+  .container {
+    gap: var(--space-2);
+  }
+  
+  .circle {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .modeLabel {
+    font-size: var(--font-size-sm);
+  }
+}

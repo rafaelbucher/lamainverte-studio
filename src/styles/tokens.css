@@ -1,7 +1,7 @@
-/* src/styles/tokens.css - Avec mode éco complet */
+/* src/styles/tokens.css - Version finale */
 
 /* ========================================
-   COULEURS - MODE PAR DÉFAUT (COLORÉ)
+   COULEURS - PALETTE DE BASE
 ======================================== */
 :root {
   /* Couleurs principales - Mode Default (RGAA) */
@@ -12,7 +12,7 @@
   --color-gray-light: #E5E5E5;
   --color-gray-dark: #4B4B4B;
   
-  /* Couleurs sémantiques - Mode Default */
+  /* Couleurs sémantiques */
   --color-primary: var(--color-green);
   --color-secondary: var(--color-green-dark);
   --color-accent: var(--color-gray-dark);
@@ -39,47 +39,6 @@
   --color-active: var(--color-primary);
   --color-focus: var(--color-primary);
   --color-disabled: var(--color-gray-light);
-  
-  /* Mode indicator */
-  --mode-name: "Mode Standard";
-  --mode-icon: "🌈";
-}
-
-/* ========================================
-   MODE ÉCO-RESPONSABLE (SOBRE)
-======================================== */
-.eco-mode {
-  /* Couleurs sémantiques - Mode Éco */
-  --color-primary: var(--color-white);
-  --color-secondary: var(--color-black);
-  --color-accent: var(--color-gray-dark);
-  --color-neutral: var(--color-gray-light);
-  
-  /* Couleurs texte - Mode Éco */
-  --color-text-primary: var(--color-black);
-  --color-text-secondary: var(--color-gray-dark);
-  --color-text-muted: var(--color-gray-dark);
-  --color-text-inverse: var(--color-white);
-  
-  /* Couleurs fond - Mode Éco */
-  --color-bg-primary: var(--color-white);
-  --color-bg-secondary: var(--color-gray-light);
-  --color-bg-accent: var(--color-black);
-  
-  /* Couleurs bordures - Mode Éco */
-  --color-border-light: var(--color-gray-light);
-  --color-border-medium: var(--color-gray-dark);
-  --color-border-accent: var(--color-black);
-  
-  /* Couleurs états - Mode Éco */
-  --color-hover: var(--color-black);
-  --color-active: var(--color-black);
-  --color-focus: var(--color-black);
-  --color-disabled: var(--color-gray-light);
-  
-  /* Mode indicator */
-  --mode-name: "Mode Éco";
-  --mode-icon: "🌱";
 }
 
 /* ========================================
@@ -208,7 +167,7 @@
 }
 
 /* ========================================
-   RÉDUCTION DES ANIMATIONS (ACCESSIBILITÉ)
+   MODE ÉCO-RESPONSABLE
 ======================================== */
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -217,4 +176,13 @@
     --transition-slow: 0ms;
     --transition-bounce: 0ms;
   }
+}
+
+/* Sélecteur pour le mode éco (à activer via classe) */
+.eco-mode {
+  --color-primary: var(--color-gray-dark);
+  --color-secondary: var(--color-gray-light);
+  --color-accent: var(--color-gray-dark);
+  --color-bg-accent: var(--color-gray-dark);
+  --color-hover: var(--color-gray-dark);
 }

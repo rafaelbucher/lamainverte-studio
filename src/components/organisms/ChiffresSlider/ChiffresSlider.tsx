@@ -110,9 +110,9 @@ export default function ChiffresSlider({
       {/* Container slider avec overflow */}
       <div 
         style={{
-          flex: 1,
-          overflow: 'hidden',
-          position: 'relative'
+            flex: 1,
+            overflow: 'hidden',
+            position: 'relative'
         }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -134,7 +134,7 @@ export default function ChiffresSlider({
                 flexDirection: 'column',
                 justifyContent: 'start',
                 textAlign: 'left',
-                padding: '75px',
+                padding: 'var(--space-16)',
                 borderRadius: '24px',
                 backgroundColor: 'var(--color-primary)'
               }}

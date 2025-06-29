@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Navigation from '@/components/organisms/Navigation/Navigation';
 import ChiffresSlider from '@/components/organisms/ChiffresSlider';
+import BannerContact from '@/components/organisms/BannerContact';
 import logo from './assets/logo.svg';
 import logoEco from './assets/logo-eco.svg';
 
@@ -142,16 +143,12 @@ export default function Home() {
       }}>
         {/* Header with title */}
         <header className="w-full px-8">
-          <h1 className="text-5xl font-normal leading-tight text-primary" style={{
+          <h1 className="text-6xl font-bold leading-tight text-black" style={{
             margin: 'var(--space-8) 0'
           }}>
-            cultivons un web inclusif et responsable…<br />
-            pour une croissance durable
+            L&apos;expertise numérique,<br/> engagée et inclusive.
           </h1>
         </header>
-
-        {/* Navigation - Composant externe */}
-        <Navigation />
 
         {/* Logo - Aligné à gauche */}
         <div className='px-8' style={{
@@ -180,10 +177,10 @@ export default function Home() {
           paddingTop: '75px',
           borderTop: '1px solid #e7e7eb',
           marginTop: '75px',
-          marginBottom: 'var(--space-20)'
+          marginBottom: 'var(--space-20)',
         }}>
-          <div className="col-md-6 col-md-offset-3 col-xs-12">
-            <h2 className="text-4xl font-normal leading-tight text-primary mb-8">
+          <div className="col-md-5 col-md-offset-2 col-xs-12">
+            <h2 className="text-4xl font-bold leading-tight text-primary mb-8">
               Accélérez la transformation responsable de vos produits digitaux
             </h2>
             
@@ -201,19 +198,24 @@ export default function Home() {
         <section className="row" style={{
           borderTop: '1px solid #e7e7eb',
           marginTop: '75px',
+          paddingTop: '75px',
           marginBottom: 'var(--space-20)'
         }}>
-          <div className="col-md-5 col-offset-2 col-xs-12"
-            style={{ padding: '75px'
-            }}>            
-            <ChiffresSlider />
+          <div className="col-md-5 col-offset-1 col-xs-12 flex items-center justify-center">
+            <h2 className="text-6xl font-bold leading-tight text-black" style={{
+              margin: 'var(--space-8) 0'
+            }}>
+              Cultivons un web <br/>inclusif et responsable<br />
+              pour une croissance durable.
+            </h2>
           </div>
-          <div className="col-md-3 col-xs-12 flex items-center"
-            style={{padding: '0' }}>
+          {/* 
+          <div className="col-md-5 col-offset-2 col-xs-12 flex items-center">
             <div>
-
-              {/* Nos engagements */}
-              <div>
+              <div
+                style={{
+                textAlign: 'right'
+                }}>
                 <h3 className="text-xl font-medium text-primary mb-4">
                   Nos engagements
                 </h3>
@@ -233,10 +235,9 @@ export default function Home() {
                   <span className="text-base text-secondary">Expériences utilisateurs innovantes et inclusives</span>
                 </div>
               </div>
-
-              {/* Nos offres */}
               <div style={{
-                marginTop: '30px'
+                marginTop: '30px',
+                textAlign: 'right'
                 }}>
                 <h3 className="text-xl font-medium text-primary mb-4">
                   Nos offres
@@ -263,14 +264,24 @@ export default function Home() {
                   <strong className="text-base text-secondary">Accompagnement global ou formation</strong>
                   <span className="text-base text-secondary"> (optionnel)</span>
                 </div>
-
-                <p className="text-base leading-relaxed text-secondary">
-                  Pour chaque offre : des bénéfices concrets, des livrables clairs, un accompagnement sur mesure.
-                </p>
               </div>
             </div>
           </div>
+          */}
+          <div className="col-md-4 col-offset-1 col-xs-12">           
+            <ChiffresSlider />
+          </div>
         </section>
+        <section className="row" style={{
+          marginTop: '75px',
+          marginBottom: 'var(--space-20)'
+        }}>
+          <div className="col-8 col-offset-2 col-xs-12">
+            <BannerContact />
+          </div>
+
+        </section>
+
 
       </main>
 

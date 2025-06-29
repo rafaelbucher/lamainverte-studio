@@ -1,6 +1,7 @@
 // src/app/layout.tsx - Version corrigée sans pageMetadata
 import type { Metadata } from 'next';
 import { generateStructuredData } from '@/lib/metadata';
+import Navigation from '@/components/organisms/Navigation/Navigation';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -102,7 +103,10 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
-        
+
+        {/* Navigation - Composant externe */}
+        <Navigation />
+
         {/* Contenu principal */}
         <main id="main-content">
           {children}

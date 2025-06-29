@@ -61,7 +61,9 @@ export default function Navigation({
     color: 'var(--color-primary)',
     fontWeight: 'var(--font-weight-medium)'
   };
+const isHomePage = pathname === '/';
 
+if (isHomePage) {
   return (
     <nav style={mergedStyle} className={className}>
       <ul style={{
@@ -117,4 +119,11 @@ export default function Navigation({
       </ul>
     </nav>
   );
+} else {
+  <nav>
+    <h1 className="font-black">NAVIGATION VIERGE</h1>
+  </nav>
+  // Navigation vierge pour les pages internes
+}
+  
 }

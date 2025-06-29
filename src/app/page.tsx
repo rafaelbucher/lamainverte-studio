@@ -65,7 +65,7 @@ export default function Home() {
   const titleStyle: React.CSSProperties = {
     fontFamily: 'var(--font-primary)',
     fontWeight: 'var(--font-weight-normal)',
-    fontSize: 'var(--font-size-5xl)',
+    fontSize: 'var(--font-size-3xl)',
     color: 'var(--color-text-primary)',
     margin: 'var(--space-8) 0',
     lineHeight: 'var(--line-height-tight)'
@@ -78,9 +78,9 @@ export default function Home() {
   // Logique pour le texte du switch
   const getDisplayText = () => {
     if (isHovered) {
-      return isEcoMode ? 'standard' : 'éco';
+      return isEcoMode ? 'mode standard' : 'mode éco';
     }
-    return isEcoMode ? 'éco' : 'standard';
+    return isEcoMode ? 'mode éco' : 'mode standard';
   };
 
   // Styles du switch intégrés
@@ -98,15 +98,15 @@ export default function Home() {
     fontFamily: 'var(--font-primary)',
     fontSize: 'var(--font-size-base)',
     fontWeight: 'var(--font-weight-normal)',
+    fontStyle: 'italic',
     color: 'var(--color-accent)',
     whiteSpace: 'nowrap'
   };
 
   const switchButtonStyle: React.CSSProperties = {
     display: 'flex',
-    gap: 'var(--space-2)',
     padding: 0,
-    border: 'none',
+    border: '2px solid var(--color-accent)',
     background: 'transparent',
     cursor: 'pointer',
     transition: 'all var(--transition-normal)',
@@ -118,7 +118,7 @@ export default function Home() {
     width: '18px',
     height: '18px',
     borderRadius: 0,
-    border: '2px solid var(--color-accent)',
+    borderRight: 'none',
     transition: 'all var(--transition-normal)',
     display: 'flex',
     alignItems: 'center',
@@ -132,7 +132,6 @@ export default function Home() {
     width: '18px',
     height: '18px',
     borderRadius: 0,
-    border: '2px solid var(--color-accent)',
     transition: 'all var(--transition-normal)',
     display: 'flex',
     alignItems: 'center',
@@ -145,8 +144,7 @@ export default function Home() {
   const squareGreenFilled: React.CSSProperties = {
     width: '18px',
     height: '18px',
-    borderRadius: 0,
-    border: '2px solid var(--color-primary)',
+    borderRadius: 0,   
     transition: 'all var(--transition-normal)',
     display: 'flex',
     alignItems: 'center',
@@ -178,7 +176,7 @@ export default function Home() {
           alignItems: 'flex-end',
           justifyContent: 'flex-start'
         }}>
-          <div style={{ maxWidth: '960px', width: '100%' }}>
+          <div style={{ maxWidth: '1024px', width: '100%' }}>
             <Image 
               src={currentLogo}
               alt={logoAlt}

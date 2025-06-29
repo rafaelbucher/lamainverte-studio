@@ -36,7 +36,7 @@ export default function Navigation({
 
   const baseStyle: React.CSSProperties = {
     position: 'fixed',
-    top: 'var(--space-8)',
+    top: 'var(--space-6)',
     right: 'var(--space-10)',
     zIndex: 'var(--z-dropdown)' as any
   };
@@ -47,9 +47,11 @@ export default function Navigation({
     position: 'relative',
     display: 'inline-block',
     color: 'var(--color-accent)',
+    cursor: 'pointer',
     textDecoration: 'none',
     fontFamily: 'var(--font-primary)',
     fontSize: 'var(--font-size-base)',
+    fontStyle: 'italic',
     transition: 'color var(--transition-normal)',
     padding: 'var(--space-1) 0'
   };
@@ -67,8 +69,8 @@ export default function Navigation({
         margin: 0,
         padding: 0,
         display: 'flex',
-        flexDirection: vertical ? 'column' : 'row',
-        gap: vertical ? 'var(--space-1)' : 'var(--space-4)',
+        flexDirection: 'row',
+        gap: 'var(--space-4)',
         textAlign: vertical ? 'right' : 'left'
       }}>
         {navigationItems.map((item, index) => {

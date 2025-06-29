@@ -90,7 +90,7 @@
 .eco-mode h4,
 .eco-mode h5,
 .eco-mode h6 {
-  color: var(--color-gray-mid);
+  color: var(--color-gray-mid) !important;
 }
 
 /* ========================================

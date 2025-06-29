@@ -47,6 +47,7 @@
 .text-green { color: var(--color-green); }
 .text-green-dark { color: var(--color-green-dark); }
 .text-accent { color: var(--color-accent); }
+.text-gray-mid { color: var(--color-gray-mid); }
 
 /* Couleurs de fond */
 .bg-primary { background-color: var(--color-bg-primary); }
@@ -56,6 +57,7 @@
 .bg-green-dark { background-color: var(--color-green-dark); }
 .bg-white { background-color: var(--color-white); }
 .bg-black { background-color: var(--color-black); }
+.bg-gray-mid { background-color: var(--color-gray-mid); }
 
 /* ========================================
    ESPACEMENT

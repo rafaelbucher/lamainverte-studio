@@ -1,7 +1,7 @@
-/* src/styles/tokens.css - Version finale */
+/* src/app/tokens.css - Fichier complet avec gris intermédiaire et titres éco */
 
 /* ========================================
-   COULEURS - PALETTE DE BASE
+   COULEURS - MODE PAR DÉFAUT (COLORÉ)
 ======================================== */
 :root {
   /* Couleurs principales - Mode Default (RGAA) */
@@ -10,9 +10,10 @@
   --color-green: #3EDC81;
   --color-green-dark: #16793F;
   --color-gray-light: #E5E5E5;
+  --color-gray-mid: #8F8F8F;
   --color-gray-dark: #4B4B4B;
   
-  /* Couleurs sémantiques */
+  /* Couleurs sémantiques - Mode Default */
   --color-primary: var(--color-green);
   --color-secondary: var(--color-green-dark);
   --color-accent: var(--color-gray-dark);
@@ -39,6 +40,57 @@
   --color-active: var(--color-primary);
   --color-focus: var(--color-primary);
   --color-disabled: var(--color-gray-light);
+  
+  /* Mode indicator */
+  --mode-name: "Mode Standard";
+  --mode-icon: "🌈";
+}
+
+/* ========================================
+   MODE ÉCO-RESPONSABLE (SOBRE)
+======================================== */
+.eco-mode {
+  /* Couleurs sémantiques - Mode Éco */
+  --color-primary: var(--color-white);
+  --color-secondary: var(--color-black);
+  --color-accent: var(--color-gray-dark);
+  --color-neutral: var(--color-gray-light);
+  
+  /* Couleurs texte - Mode Éco */
+  --color-text-primary: var(--color-black);
+  --color-text-secondary: var(--color-gray-dark);
+  --color-text-muted: var(--color-gray-dark);
+  --color-text-inverse: var(--color-white);
+  
+  /* Couleurs fond - Mode Éco */
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-gray-light);
+  --color-bg-accent: var(--color-black);
+  
+  /* Couleurs bordures - Mode Éco */
+  --color-border-light: var(--color-gray-light);
+  --color-border-medium: var(--color-gray-dark);
+  --color-border-accent: var(--color-black);
+  
+  /* Couleurs états - Mode Éco */
+  --color-hover: var(--color-black);
+  --color-active: var(--color-black);
+  --color-focus: var(--color-black);
+  --color-disabled: var(--color-gray-light);
+  
+  /* Mode indicator */
+  --mode-name: "Mode Éco";
+  --mode-icon: "🌱";
+}
+
+/* Titres en mode éco - NOUVEAUTÉ */
+.eco-mode h1,
+.eco-mode h2, 
+.eco-mode h3,
+.eco-mode h4,
+.eco-mode h5,
+.eco-mode h6 {
+  color: var(--color-gray-mid);
 }
 
 /* ========================================
@@ -167,7 +219,7 @@
 }
 
 /* ========================================
-   MODE ÉCO-RESPONSABLE
+   RÉDUCTION DES ANIMATIONS (ACCESSIBILITÉ)
 ======================================== */
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -176,13 +228,4 @@
     --transition-slow: 0ms;
     --transition-bounce: 0ms;
   }
-}
-
-/* Sélecteur pour le mode éco (à activer via classe) */
-.eco-mode {
-  --color-primary: var(--color-gray-dark);
-  --color-secondary: var(--color-gray-light);
-  --color-accent: var(--color-gray-dark);
-  --color-bg-accent: var(--color-gray-dark);
-  --color-hover: var(--color-gray-dark);
 }

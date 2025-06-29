@@ -1,4 +1,4 @@
-// src/app/page.tsx - Version sans import pageMetadata
+// src/app/page.tsx - Avec exemples de titres pour tester le mode éco
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -159,7 +159,7 @@ export default function Home() {
     <div className="w-full px-8 relative bg-primary text-primary font-primary min-h-screen flex flex-col">
       {/* Hero Section */}
       <section style={heroStyle}>
-        {/* Header with title */}
+        {/* Header with title - Utilise un h1 qui changera en mode éco */}
         <header style={{ width: '100%' }}>
           <h1 style={titleStyle}>
             cultivons un web inclusif et responsable…<br />
@@ -189,7 +189,84 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Section de démonstration des titres */}
+      <section style={{ marginBottom: 'var(--space-20)' }}>
+        <div style={{ maxWidth: '800px' }}>
+          <h2 style={{ 
+            fontSize: 'var(--font-size-3xl)', 
+            marginBottom: 'var(--space-6)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-normal)'
+          }}>
+            Nos services responsables
+          </h2>
+          
+          <h3 style={{ 
+            fontSize: 'var(--font-size-2xl)', 
+            marginBottom: 'var(--space-4)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-normal)'
+          }}>
+            Éco-conception web
+          </h3>
+          
+          <p style={{ 
+            marginBottom: 'var(--space-6)',
+            fontSize: 'var(--font-size-lg)',
+            lineHeight: 'var(--line-height-relaxed)',
+            color: 'var(--color-text-secondary)'
+          }}>
+            Nous développons des sites web performants et respectueux de l'environnement.
+          </p>
+
+          <h3 style={{ 
+            fontSize: 'var(--font-size-2xl)', 
+            marginBottom: 'var(--space-4)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-normal)'
+          }}>
+            Accessibilité universelle
+          </h3>
+          
+          <p style={{ 
+            marginBottom: 'var(--space-8)',
+            fontSize: 'var(--font-size-lg)',
+            lineHeight: 'var(--line-height-relaxed)',
+            color: 'var(--color-text-secondary)'
+          }}>
+            Un web accessible à tous, conforme aux standards RGAA et WCAG.
+          </p>
+
+          <h4 style={{ 
+            fontSize: 'var(--font-size-xl)', 
+            marginBottom: 'var(--space-3)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-medium)'
+          }}>
+            Pourquoi choisir l'éco-conception ?
+          </h4>
+
+          <h5 style={{ 
+            fontSize: 'var(--font-size-lg)', 
+            marginBottom: 'var(--space-2)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-medium)'
+          }}>
+            Impact environnemental réduit
+          </h5>
+
+          <h6 style={{ 
+            fontSize: 'var(--font-size-base)', 
+            marginBottom: 'var(--space-4)',
+            fontFamily: 'var(--font-primary)',
+            fontWeight: 'var(--font-weight-medium)'
+          }}>
+            Des sites 3x plus légers en moyenne
+          </h6>
+        </div>
+      </section>
+
+      {/* Footer - Utilise un h2 qui changera en mode éco */}
       <footer style={{
         width: '100%',
         padding: 'var(--space-8) 0',

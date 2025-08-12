@@ -1,33 +1,135 @@
-// src/app/loading.tsx
-import Image from 'next/image';
-import logo from './assets/logo.svg';
+// src/app/layout.tsx - Version avec Footer intégré
+import type { Metadata } from 'next';
+import { generateStructuredData } from '@/lib/metadata';
+import Navigation from '@/components/organisms/Navigation/Navigation';
+import Footer from '@/components/organisms/Footer/Footer';
+import './globals.css';
+import '../styles/header.css';
 
-export default function Loading() {
+export const metadata: Metadata = {
+  title: 'La main verte Studio - Expertise numérique responsable',
+  description: 'Studio de développement web spécialisé dans l\'éco-conception et l\'accessibilité. Cultivons ensemble un web inclusif et responsable pour une croissance durable.',
+  keywords: 'développement web, éco-conception, accessibilité, numérique responsable, web design, développement durable',
+  
+  openGraph: {
+    title: 'La main verte Studio - Expertise numérique responsable',
+    description: 'Studio de développement web spécialisé dans l\'éco-conception et l\'accessibilité',
+    url: process.env.NODE_ENV === 'production' ? 'https://lamainverte.studio' : 'http://localhost:3000',
+    siteName: 'La main verte Studio',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'La main verte Studio'
+      }
+    ],
+    locale: 'fr_FR',
+    type: 'website'
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'La main verte Studio - Expertise numérique responsable',
+    description: 'Studio de développement web spécialisé dans l\'éco-conception et l\'accessibilité',
+    images: ['/og-image.jpg']
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true
+    }
+  },
+
+  authors: [{ name: 'La main verte Studio' }],
+  creator: 'La main verte Studio',
+  publisher: 'La main verte Studio',
+  
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#3EDC81',
+  
+  alternates: {
+    canonical: process.env.NODE_ENV === 'production' 
+      ? 'https://lamainverte.studio'
+      : undefined
+  }
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // Données structurées pour l'organisation
+  const organizationSchema = generateStructuredData('Organization');
+  const websiteSchema = generateStructuredData('WebSite');
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-primary">
-      <div className="text-center">
-        {/* Logo avec animation subtile */}
-        <div className="mb-8 animate-pulse">
-          <Image 
-            src={logo}
-            alt="Logo La main verte Studio"
-            className="w-48 mx-auto opacity-80"
-            priority
-          />
-        </div>
+    <html lang="fr" suppressHydrationWarning>
+      <head>
+        {/* Favicon et icônes */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        
+        {/* Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Données structurées */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema)
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema)
+          }}
+        />
 
-        {/* Indicateur de chargement */}
-        <div className="flex items-center justify-center space-x-2 mb-4">
-          <div className="w-3 h-3 bg-accent rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-          <div className="w-3 h-3 bg-accent rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-          <div className="w-3 h-3 bg-accent rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-        </div>
+        {/* Preconnect pour les performances */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      </head>
+      
+      <body className="relative min-h-screen flex flex-col" suppressHydrationWarning>
+        {/* Skip link pour l'accessibilité */}
+        <a 
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded"
+        >
+          Aller au contenu principal
+        </a>
 
-        {/* Message */}
-        <p className="text-accent font-primary text-lg">
-          Chargement en cours...
-        </p>
-      </div>
-    </div>
+        {/* Header avec Navigation - visible sur toutes les pages */}
+        <header>
+          <Navigation />
+        </header>
+
+        {/* Contenu principal */}
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+
+        {/* Footer avec EcoModeSwitch - visible sur toutes les pages */}
+        <Footer 
+          variant="default"
+          showEcoSwitch={true}
+          ecoSwitchPosition="right"
+        />
+
+        {/* Analytics et scripts de performance (à ajouter si nécessaire) */}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            {/* Google Analytics, Plausible, ou autre solution respectueuse de la vie privée */}
+          </>
+        )}
+      </body>
+    </html>
   );
 }

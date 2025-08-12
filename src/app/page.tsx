@@ -1,128 +1,21 @@
-// src/app/page.tsx - Exemple avec le nouveau composant Logo
+// src/app/page.tsx - Version nettoyée sans footer ni EcoModeSwitch
 'use client';
-import { useEffect, useState } from 'react';
-import Navigation from '@/components/organisms/Navigation/Navigation';
+
+import { useState, useEffect } from 'react';
 import ChiffresSlider from '@/components/organisms/ChiffresSlider';
 import BannerContact from '@/components/organisms/BannerContact';
 import { Logo } from '@/components/atoms/Logo';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const [isEcoMode, setIsEcoMode] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    
-    // Vérifier le mode éco initial
-    const checkEcoMode = () => {
-      const hasEcoMode = document.body.classList.contains('eco-mode');
-      setIsEcoMode(hasEcoMode);
-    };
-    
-    checkEcoMode();
-    
-    // Observer les changements de classe sur body
-    const observer = new MutationObserver(() => {
-      checkEcoMode();
-    });
-    
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-    
-    return () => observer.disconnect();
   }, []);
-
-  const toggleEcoMode = () => {
-    const newEcoMode = !isEcoMode;
-    setIsEcoMode(newEcoMode);
-    
-    if (newEcoMode) {
-      document.body.classList.add('eco-mode');
-    } else {
-      document.body.classList.remove('eco-mode');
-    }
-  };
 
   if (!mounted) {
     return null;
   }
-
-  // Logique pour le texte du switch
-  const getDisplayText = () => {
-    if (isHovered) {
-      return isEcoMode ? 'mode standard' : 'mode éco';
-    }
-    return isEcoMode ? 'mode éco' : 'mode standard';
-  };
-
-  // Styles du switch avec tokens CSS
-  const switchContainerStyle: React.CSSProperties = {
-    position: 'fixed',
-    bottom: 'var(--space-8)',
-    right: 'var(--space-10)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'var(--space-2)',
-    zIndex: 'var(--z-toast)' as any
-  };
-
-  const switchLabelStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-primary)',
-    fontSize: 'var(--font-size-base)',
-    fontWeight: 'var(--font-weight-normal)',
-    fontStyle: 'italic',
-    color: 'var(--color-accent)',
-    whiteSpace: 'nowrap'
-  };
-
-  const switchButtonStyle: React.CSSProperties = {
-    display: 'flex',
-    padding: 0,
-    border: '2px solid var(--color-accent)',
-    background: 'transparent',
-    cursor: 'pointer',
-    transition: 'all var(--transition-normal)',
-    outline: 'none'
-  };
-
-  const squareWhiteBorder: React.CSSProperties = {
-    width: '18px',
-    height: '18px',
-    borderRadius: 0,
-    transition: 'all var(--transition-normal)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: 'var(--color-white)'
-  };
-
-  const squareBlackFilled: React.CSSProperties = {
-    width: '18px',
-    height: '18px',
-    borderRadius: 0,
-    transition: 'all var(--transition-normal)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: 'var(--color-accent)'
-  };
-
-  const squareGreenFilled: React.CSSProperties = {
-    width: '18px',
-    height: '18px',
-    borderRadius: 0,   
-    transition: 'all var(--transition-normal)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: 'var(--color-primary)'
-  };
 
   return (
     <div className="w-full bg-primary text-primary font-primary min-h-screen flex flex-col">
@@ -144,7 +37,7 @@ export default function Home() {
           </h1>
         </header>
 
-        {/* Logo - Aligné à gauche avec le nouveau composant */}
+        {/* Logo - Aligné à gauche */}
         <div className='px-8' style={{
           width: '100%',
           height: '100vh',
@@ -219,34 +112,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-8 flex items-center justify-start text-left px-8" style={{ marginTop: 'auto' }}>
-        <h2 className="text-5xl font-normal leading-tight text-primary" style={{ margin: 'var(--space-8) 0' }}>
-          L&apos;expertise numérique,<br/> engagée et inclusive
-        </h2>
-      </footer>
-
-      {/* Eco Mode Switch */}
-      <div style={switchContainerStyle}>
-        <span style={switchLabelStyle}>
-          {getDisplayText()}
-        </span>
-        
-        <button
-          onClick={toggleEcoMode}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          style={switchButtonStyle}
-          aria-label={`Basculer vers le ${isEcoMode ? 'mode standard' : 'mode éco'}`}
-          title={`Passer au ${isEcoMode ? 'mode standard (coloré)' : 'mode éco (sobre)'}`}
-        >
-          {/* Carré mode standard (gauche) */}
-          <div style={isEcoMode ? squareBlackFilled : squareWhiteBorder} />
-          
-          {/* Carré mode éco (droite) */}
-          <div style={isEcoMode ? squareWhiteBorder : squareGreenFilled} />
-        </button>
-      </div>
+      {/* Le Footer avec EcoModeSwitch est maintenant géré par le layout */}
     </div>
   );
 }

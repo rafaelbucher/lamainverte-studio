@@ -1,7 +1,8 @@
-// src/app/layout.tsx - Version avec composant Logo
+// src/app/layout.tsx - Version avec Footer intégré
 import type { Metadata } from 'next';
 import { generateStructuredData } from '@/lib/metadata';
 import Navigation from '@/components/organisms/Navigation/Navigation';
+import Footer from '@/components/organisms/Footer/Footer';
 import './globals.css';
 import '../styles/header.css';
 
@@ -96,7 +97,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       </head>
       
-      <body className="relative" suppressHydrationWarning>
+      <body className="relative min-h-screen flex flex-col" suppressHydrationWarning>
         {/* Skip link pour l'accessibilité */}
         <a 
           href="#main-content"
@@ -105,17 +106,22 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
 
-        {/* Header avec Logo - visible sur toutes les pages */}
+        {/* Header avec Navigation - visible sur toutes les pages */}
         <header>
-          {/* Navigation - Composant externe */}
           <Navigation />
         </header>
 
-
         {/* Contenu principal */}
-        <main id="main-content">
+        <main id="main-content" className="flex-1">
           {children}
         </main>
+
+        {/* Footer avec EcoModeSwitch - visible sur toutes les pages */}
+        <Footer 
+          variant="default"
+          showEcoSwitch={true}
+          ecoSwitchPosition="right"
+        />
 
         {/* Analytics et scripts de performance (à ajouter si nécessaire) */}
         {process.env.NODE_ENV === 'production' && (

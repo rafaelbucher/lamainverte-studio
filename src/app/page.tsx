@@ -1,13 +1,17 @@
-// src/app/page.tsx - Version nettoyée sans footer ni EcoModeSwitch
+// src/app/page.tsx - Version mise à jour avec useEcoMode
 'use client';
 
 import { useState, useEffect } from 'react';
 import ChiffresSlider from '@/components/organisms/ChiffresSlider';
 import BannerContact from '@/components/organisms/BannerContact';
 import { Logo } from '@/components/atoms/Logo';
+import { useEcoMode } from '@/hooks/useEcoMode';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+  
+  // Utilisation du hook centralisé pour le mode éco
+  const { isEcoMode } = useEcoMode();
 
   useEffect(() => {
     setMounted(true);
@@ -30,9 +34,14 @@ export default function Home() {
       }}>
         {/* Header with title */}
         <header className="w-full px-8">
-          <h1 className="text-6xl font-bold leading-tight text-black" style={{
-            margin: 'var(--space-8) 0'
-          }}>
+          <h1 
+            className="text-6xl font-bold leading-tight text-black" 
+            style={{
+              margin: 'var(--space-8) 0',
+              color: 'var(--color-text-primary)',
+              transition: 'color var(--transition-normal)'
+            }}
+          >
             L&apos;expertise numérique,<br/> engagée et inclusive.
           </h1>
         </header>
@@ -62,20 +71,38 @@ export default function Home() {
         {/* Section 1 - Une colonne avec offset */}
         <section className="row" style={{
           paddingTop: '75px',
-          borderTop: '1px solid #e7e7eb',
+          borderTop: '1px solid var(--color-border-light)',
           marginTop: '75px',
           marginBottom: 'var(--space-20)',
         }}>
           <div className="col-md-5 col-md-offset-2 col-xs-12">
-            <h2 className="text-4xl font-bold leading-tight text-primary mb-8">
+            <h2 
+              className="text-4xl font-bold leading-tight mb-8"
+              style={{
+                color: 'var(--color-text-primary)',
+                transition: 'color var(--transition-normal)'
+              }}
+            >
               Accélérez la transformation responsable de vos produits digitaux
             </h2>
             
-            <p className="text-xl leading-relaxed text-secondary mb-6">
+            <p 
+              className="text-xl leading-relaxed mb-6"
+              style={{
+                color: 'var(--color-text-secondary)',
+                transition: 'color var(--transition-normal)'
+              }}
+            >
               La main verte studio aide agences, PME et grands comptes à concevoir des solutions numériques accessibles, performantes et respectueuses de l'environnement.
             </p>
             
-            <p className="text-xl leading-relaxed text-secondary">
+            <p 
+              className="text-xl leading-relaxed"
+              style={{
+                color: 'var(--color-text-secondary)',
+                transition: 'color var(--transition-normal)'
+              }}
+            >
               De l'audit d'accessibilité (RGAA) au conseil en numérique responsable (RGESN), jusqu'à l'écoconception UX/UI (en partenariat avec Nortis), nous accompagnons vos équipes pour bâtir un numérique plus inclusif, sobre et conforme aux exigences réglementaires.
             </p>
           </div>
@@ -83,15 +110,20 @@ export default function Home() {
 
         {/* Section 3 - Nos offres et engagements */}
         <section className="row" style={{
-          borderTop: '1px solid #e7e7eb',
+          borderTop: '1px solid var(--color-border-light)',
           marginTop: '75px',
           paddingTop: '75px',
           marginBottom: 'var(--space-20)'
         }}>
           <div className="col-md-5 col-offset-1 col-xs-12 flex items-center justify-center">
-            <h2 className="text-6xl font-bold leading-tight text-black" style={{
-              margin: 'var(--space-8) 0'
-            }}>
+            <h2 
+              className="text-6xl font-bold leading-tight text-black" 
+              style={{
+                margin: 'var(--space-8) 0',
+                color: 'var(--color-text-primary)',
+                transition: 'color var(--transition-normal)'
+              }}
+            >
               Cultivons un web <br/>inclusif et responsable<br />
               pour une croissance durable.
             </h2>

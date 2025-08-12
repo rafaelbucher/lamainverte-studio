@@ -1,8 +1,8 @@
-// src/components/organisms/Footer/Footer.tsx - Version avec switch intégré ultra-simple
+// src/components/organisms/Footer/Footer.tsx - Version corrigée avec useEcoMode
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEcoMode } from '@/hooks/useEcoMode';
 
 export interface FooterProps {
   className?: string;
@@ -22,33 +22,10 @@ const Footer: React.FC<FooterProps> = ({
   const pathname = usePathname();
   const isHomePage = pathname === '/';
   
-  // État du mode éco - géré directement dans le Footer
-  const [isEcoMode, setIsEcoMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  // Utilisation du hook centralisé
+  const { isEcoMode, toggleEcoMode, mounted } = useEcoMode();
 
-  // Initialisation
-  useEffect(() => {
-    setMounted(true);
-    // Vérifier l'état initial
-    const hasEcoMode = document.body.classList.contains('eco-mode');
-    setIsEcoMode(hasEcoMode);
-  }, []);
-
-  // Fonction pour basculer le mode éco
-  const toggleEcoMode = () => {
-    const newEcoMode = !isEcoMode;
-    setIsEcoMode(newEcoMode);
-    
-    if (newEcoMode) {
-      document.body.classList.add('eco-mode');
-      console.log('✅ Mode éco activé');
-    } else {
-      document.body.classList.remove('eco-mode');
-      console.log('❌ Mode éco désactivé');
-    }
-  };
-
-  // Ne pas rendre avant le montage
+  // Ne pas rendre avant le montage pour éviter l'hydratation mismatch
   if (!mounted) {
     return null;
   }
@@ -56,11 +33,12 @@ const Footer: React.FC<FooterProps> = ({
   // Styles du Footer
   const footerStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderTop: '1px solid #E5E5E5',
+    backgroundColor: 'var(--color-bg-primary)',
+    borderTop: '1px solid var(--color-border-light)',
     padding: '32px',
     minHeight: '120px',
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'var(--font-primary)',
+    transition: 'all var(--transition-normal)',
     ...style
   };
 
@@ -70,7 +48,7 @@ const Footer: React.FC<FooterProps> = ({
     margin: '0 auto'
   };
 
-  // Bouton eco switch ultra-simple
+  // Composant EcoSwitch amélioré
   const EcoSwitchButton = () => (
     <div style={{
       display: 'flex',
@@ -82,23 +60,29 @@ const Footer: React.FC<FooterProps> = ({
       <span style={{
         fontSize: '16px',
         fontStyle: 'italic',
-        color: '#4B4B4B'
+        color: 'var(--color-accent)',
+        transition: 'color var(--transition-normal)'
       }}>
         {isEcoMode ? 'mode éco' : 'mode standard'}
       </span>
       
       {/* Bouton switch */}
       <button
-        onClick={toggleEcoMode}
+        onClick={(e) => {
+          e.preventDefault();
+          console.log('🖱️ Click sur EcoSwitch Footer');
+          toggleEcoMode();
+        }}
         style={{
           display: 'flex',
           padding: '0',
-          border: '2px solid #4B4B4B',
-          backgroundColor: '#FFFFFF',
+          border: '2px solid var(--color-accent)',
+          backgroundColor: 'var(--color-bg-primary)',
           cursor: 'pointer',
           outline: 'none',
           borderRadius: '2px',
-          transition: 'all 0.2s ease'
+          transition: 'all var(--transition-normal)',
+          position: 'relative'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
@@ -108,24 +92,60 @@ const Footer: React.FC<FooterProps> = ({
           e.currentTarget.style.transform = 'scale(1)';
           e.currentTarget.style.boxShadow = 'none';
         }}
+        onFocus={(e) => {
+          e.currentTarget.style.outline = '2px solid var(--color-focus)';
+          e.currentTarget.style.outlineOffset = '2px';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.outline = 'none';
+        }}
         aria-label={`Basculer vers le ${isEcoMode ? 'mode standard' : 'mode éco'}`}
+        title={`Passer au ${isEcoMode ? 'mode standard (coloré)' : 'mode éco (sobre)'}`}
         type="button"
       >
         {/* Carré gauche - Mode standard */}
         <div style={{
           width: '20px',
           height: '20px',
-          backgroundColor: isEcoMode ? '#4B4B4B' : '#FFFFFF',
-          transition: 'background-color 0.2s ease'
-        }} />
+          backgroundColor: isEcoMode ? 'var(--color-white)' : 'var(--color-primary)',
+          border: `1px solid ${isEcoMode ? 'var(--color-accent)' : 'var(--color-primary)'}`,
+          transition: 'all var(--transition-normal)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          {/* Indicateur visuel pour le mode standard */}
+          {!isEcoMode && (
+            <div style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: 'var(--color-white)',
+              borderRadius: '50%'
+            }} />
+          )}
+        </div>
         
         {/* Carré droite - Mode éco */}
         <div style={{
           width: '20px',
           height: '20px',
-          backgroundColor: isEcoMode ? '#FFFFFF' : '#3EDC81',
-          transition: 'background-color 0.2s ease'
-        }} />
+          backgroundColor: isEcoMode ? 'var(--color-accent)' : 'var(--color-white)',
+          border: `1px solid var(--color-accent)`,
+          transition: 'all var(--transition-normal)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          {/* Indicateur visuel pour le mode éco */}
+          {isEcoMode && (
+            <div style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: 'var(--color-white)',
+              borderRadius: '50%'
+            }} />
+          )}
+        </div>
       </button>
     </div>
   );
@@ -148,9 +168,10 @@ const Footer: React.FC<FooterProps> = ({
                 fontSize: '2.75rem',
                 fontWeight: 400,
                 lineHeight: 1.2,
-                color: '#111111',
+                color: 'var(--color-text-primary)',
                 margin: '0',
-                maxWidth: '600px'
+                maxWidth: '600px',
+                transition: 'color var(--transition-normal)'
               }}>
                 L&apos;expertise numérique,<br/> engagée et inclusive
               </h2>
@@ -200,9 +221,10 @@ const Footer: React.FC<FooterProps> = ({
           <div style={{ flex: 1 }}>
             <p style={{
               fontSize: '16px',
-              color: '#4B4B4B',
+              color: 'var(--color-text-secondary)',
               margin: '0',
-              fontStyle: 'italic'
+              fontStyle: 'italic',
+              transition: 'color var(--transition-normal)'
             }}>
               © 2024 La main verte Studio
             </p>

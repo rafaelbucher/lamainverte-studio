@@ -1,0 +1,33 @@
+/* src/styles/header.css */
+
+/* Header logo positioning */
+.header-logo {
+  position: fixed;
+  top: var(--space-6);
+  left: var(--space-8);
+  z-index: var(--z-dropdown);
+  transition: all var(--transition-normal);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-logo {
+    top: var(--space-4) !important;
+    left: var(--space-4) !important;
+  }
+}
+
+/* Ajustement pour les pages avec navigation spéciale */
+.header-logo .logo-home {
+  transform: scale(0.8);
+}
+
+/* Mobile menu animations */
+body.mobile-menu-open > *:not(nav):not([data-mobile-menu]):not(header) {
+  opacity: 0.3;
+  transition: opacity 250ms ease-in-out;
+}
+
+body.mobile-menu-open nav {
+  opacity: 1 !important;
+}

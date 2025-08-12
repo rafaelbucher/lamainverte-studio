@@ -1,13 +1,11 @@
-// src/components/organisms/Navigation/Navigation.tsx
+// src/components/organisms/Navigation/Navigation.tsx - Version complète finale
 'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { X, Menu } from 'lucide-react';
-import logo from '@/app/assets/logo.svg';
-import logoEco from '@/app/assets/logo-eco.svg';
+import { Logo } from '@/components/atoms/Logo';
 
 interface NavigationItem {
   label: string;
@@ -39,32 +37,11 @@ export default function Navigation({
 }: NavigationProps) {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
-  const [isEcoMode, setIsEcoMode] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    
-    // Vérifier le mode éco initial
-    const checkEcoMode = () => {
-      const hasEcoMode = document.body.classList.contains('eco-mode');
-      setIsEcoMode(hasEcoMode);
-    };
-    
-    checkEcoMode();
-    
-    // Observer les changements de classe sur body
-    const observer = new MutationObserver(() => {
-      checkEcoMode();
-    });
-    
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-    
-    return () => observer.disconnect();
   }, []);
 
   // Fermer le menu mobile quand on change de page
@@ -75,12 +52,10 @@ export default function Navigation({
   // Gestion de l'animation d'ouverture/fermeture
   useEffect(() => {
     if (isMobileMenuOpen) {
-      // Appliquer l'effet d'opacité au body (sauf logo)
       document.body.style.setProperty('--mobile-menu-opacity', '0.3');
       document.body.classList.add('mobile-menu-open');
       document.body.style.overflow = 'hidden';
     } else {
-      // Retirer l'effet
       document.body.style.removeProperty('--mobile-menu-opacity');
       document.body.classList.remove('mobile-menu-open');
       document.body.style.overflow = 'unset';
@@ -96,10 +71,6 @@ export default function Navigation({
   if (!mounted) {
     return null;
   }
-
-  // Choisir le bon logo selon le mode
-  const currentLogo = isEcoMode ? logoEco : logo;
-  const logoAlt = isEcoMode ? 'Logo La main verte Studio - Mode Éco' : 'Logo La main verte Studio';
 
   // Obtenir le nom de la page courante
   const getCurrentPageName = () => {
@@ -127,32 +98,6 @@ export default function Navigation({
     zIndex: 'var(--z-dropdown)' as any
   };
 
-  // Style spécifique pour la page d'accueil (droite sur desktop)
-  const homeNavStyle: React.CSSProperties = {
-    ...baseStyle,
-  };
-
-  // Style spécifique pour les pages internes (toute la largeur sur desktop)
-  const internalNavStyle: React.CSSProperties = {
-    ...baseStyle,
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'start'
-  };
-
-  // Style mobile pour toutes les pages
-  const mobileNavStyle: React.CSSProperties = {
-    ...baseStyle,
-    left: 0,
-    right: 0,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft: 'var(--space-6)',
-    paddingRight: 'var(--space-6)'
-  };
-
   const linkBaseStyle: React.CSSProperties = {
     position: 'relative',
     display: 'inline-block',
@@ -172,7 +117,6 @@ export default function Navigation({
     fontWeight: 'var(--font-weight-medium)'
   };
 
-  // Style pour les liens du menu mobile
   const mobileLinkStyle: React.CSSProperties = {
     position: 'relative',
     display: 'inline-block',
@@ -183,6 +127,7 @@ export default function Navigation({
     fontSize: 'var(--font-size-base)',
     fontStyle: 'italic',
     transition: 'color var(--transition-normal)',
+    marginBottom: 'var(--space-4)'
   };
 
   const mobileActiveLinkStyle: React.CSSProperties = {
@@ -195,19 +140,7 @@ export default function Navigation({
   if (isHomePage) {
     return (
       <>
-        {/* CSS pour l'animation d'opacité */}
-        <style jsx global>{`
-          body.mobile-menu-open > *:not(nav):not([data-mobile-menu]) {
-            opacity: var(--mobile-menu-opacity, 1);
-            transition: opacity 250ms ease-in-out;
-          }
-          
-          body.mobile-menu-open nav {
-            opacity: 1 !important;
-          }
-        `}</style>
-
-        <nav style={homeNavStyle} className={className}>
+        <nav style={baseStyle} className={className}>
           {/* Navigation desktop - horizontale à droite */}
           <ul style={{
             listStyle: 'none',
@@ -231,12 +164,14 @@ export default function Navigation({
                     style={isActive && showActiveIndicator ? activeLinkStyle : linkBaseStyle}
                     onMouseEnter={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.color = 'var(--color-hover)';
+                        const target = e.currentTarget as HTMLElement;
+                        target.style.color = 'var(--color-hover)';
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.color = 'var(--color-accent)';
+                        const target = e.currentTarget as HTMLElement;
+                        target.style.color = 'var(--color-accent)';
                       }
                     }}
                     title={item.description}
@@ -249,7 +184,7 @@ export default function Navigation({
           </ul>
         </nav>
 
-        {/* Bouton hamburger mobile pour page d'accueil - position fixe en haut à droite */}
+        {/* Bouton hamburger mobile pour page d'accueil */}
         <button
           onClick={toggleMobileMenu}
           style={{
@@ -269,7 +204,7 @@ export default function Navigation({
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Overlay mobile avec animation slide de gauche vers droite */}
+        {/* Overlay mobile home */}
         <div
           data-mobile-menu
           style={{
@@ -282,7 +217,7 @@ export default function Navigation({
             zIndex: '100' as any,
             transition: 'left 250ms ease-in-out',
             padding: 'var(--space-6)',
-            paddingTop: 'calc(var(--space-6) + 60px)', // Espace pour éviter le logo
+            paddingTop: 'calc(var(--space-6) + 60px)',
             boxShadow: isMobileMenuOpen ? '4px 0 20px rgba(0,0,0,0.1)' : 'none'
           }}
           className="visible-xs"
@@ -293,7 +228,8 @@ export default function Navigation({
               margin: 0,
               padding: 0,
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              gap: 'var(--space-3)'
             }}>
               {navigationItems.map((item, index) => {
                 const isActive = pathname === item.href || 
@@ -307,12 +243,14 @@ export default function Navigation({
                       onClick={() => setIsMobileMenuOpen(false)}
                       onMouseEnter={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.color = 'var(--color-hover)';
+                          const target = e.currentTarget as HTMLElement;
+                          target.style.color = 'var(--color-hover)';
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (!isActive) {
-                          e.currentTarget.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
+                          const target = e.currentTarget as HTMLElement;
+                          target.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
                         }
                       }}
                     >
@@ -331,51 +269,24 @@ export default function Navigation({
   // Navigation pour les pages internes
   return (
     <>
-      {/* CSS pour l'animation d'opacité */}
-      <style jsx global>{`
-        body.mobile-menu-open > *:not(nav):not([data-mobile-menu]) {
-          opacity: var(--mobile-menu-opacity, 1);
-          transition: opacity 250ms ease-in-out;
-        }
-        
-        body.mobile-menu-open nav {
-          opacity: 1 !important;
-        }
-      `}</style>
-
-      <nav style={internalNavStyle} className={`${className} hidden-xs internal-nav`}>
+      <nav style={{
+        ...baseStyle,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'start'
+      }} className={`${className} hidden-xs internal-nav`}>
         {/* Logo + nom de page à gauche - Desktop */}
         <div style={{
           display: 'flex',
           alignItems: 'end',
         }}>
-          <Link 
+          <Logo 
             href="/"
-            style={{
-              display: 'block',
-              transition: 'transform var(--transition-normal)',
-              maxWidth: '180px',
-              flexShrink: 0
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
+            size="medium"
+            showHover={true}
             title="Retour à l'accueil"
-          >
-            <Image 
-              src={currentLogo}
-              alt={logoAlt}
-              style={{ 
-                width: '100%', 
-                height: 'auto',
-                display: 'block'
-              }}
-              priority
-            />
-          </Link>
+            style={{ flexShrink: 0 }}
+          />
 
           {/* Séparateur et nom de page */}
           <div style={{
@@ -419,31 +330,19 @@ export default function Navigation({
                   style={isActive && showActiveIndicator ? activeLinkStyle : linkBaseStyle}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = 'var(--color-hover)';
+                      const target = e.currentTarget as HTMLElement;
+                      target.style.color = 'var(--color-hover)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = 'var(--color-accent)';
+                      const target = e.currentTarget as HTMLElement;
+                      target.style.color = 'var(--color-accent)';
                     }
                   }}
                   title={item.description}
                 >
                   {item.label}
-                  {isActive && showActiveIndicator && (
-                    <span 
-                      style={{
-                        position: 'absolute',
-                        right: '-8px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        width: '4px',
-                        height: '4px',
-                        backgroundColor: 'var(--color-primary)',
-                        borderRadius: '50%'
-                      }}
-                    />
-                  )}
                 </Link>
               </li>
             );
@@ -451,40 +350,35 @@ export default function Navigation({
         </ul>
       </nav>
 
-      {/* Navigation mobile pour pages internes - Logo + Page courante */}
+      {/* Navigation mobile pour pages internes */}
       <div 
         style={{
-          ...mobileNavStyle,
-          justifyContent: 'flex-start' // Aligné à gauche
+          position: 'fixed',
+          width: '100%',
+          height: '100svh',
+          padding: 'var(--space-10)',
+          paddingLeft: 'var(--space-6)',
+          paddingRight: 'var(--space-6)',
+          zIndex: 'var(--z-dropdown)' as any,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'start'
         }} 
         className={`${className} visible-xs`}
       >
-        {/* Logo + séparateur + page courante à gauche - identique au desktop */}
+        {/* Logo + séparateur + page courante à gauche */}
         <div style={{
           display: 'flex',
           alignItems: 'end',
         }}>
-          <Link 
+          <Logo 
             href="/"
-            style={{
-              display: 'block',
-              maxWidth: '180px', // Même taille que desktop
-              flexShrink: 0
-            }}
-          >
-            <Image 
-              src={currentLogo}
-              alt={logoAlt}
-              style={{ 
-                width: '100%', 
-                height: 'auto',
-                display: 'block'
-              }}
-              priority
-            />
-          </Link>
+            size="medium"
+            showHover={false}
+            style={{ flexShrink: 0 }}
+          />
 
-          {/* Séparateur et nom de page - comme sur desktop */}
+          {/* Séparateur et nom de page */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -506,7 +400,7 @@ export default function Navigation({
         </div>
       </div>
 
-      {/* Bouton hamburger mobile pour pages internes - position fixe en haut à droite */}
+      {/* Bouton hamburger mobile pour pages internes */}
       <button
         onClick={toggleMobileMenu}
         style={{
@@ -526,7 +420,7 @@ export default function Navigation({
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Overlay mobile avec animation slide de gauche vers droite */}
+      {/* Overlay mobile pour pages internes */}
       <div
         data-mobile-menu
         style={{
@@ -539,7 +433,7 @@ export default function Navigation({
           zIndex: '100' as any,
           transition: 'left 250ms ease-in-out',
           padding: 'var(--space-6)',
-          paddingTop: 'calc(var(--space-6) + 60px)', // Espace pour éviter le header
+          paddingTop: 'calc(var(--space-6) + 60px)',
           boxShadow: isMobileMenuOpen ? '4px 0 20px rgba(0,0,0,0.1)' : 'none'
         }}
         className="visible-xs"
@@ -550,7 +444,8 @@ export default function Navigation({
             margin: 0,
             padding: 0,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            gap: 'var(--space-3)'
           }}>
             {navigationItems.map((item, index) => {
               const isActive = pathname === item.href || 
@@ -564,12 +459,14 @@ export default function Navigation({
                     onClick={() => setIsMobileMenuOpen(false)}
                     onMouseEnter={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.color = 'var(--color-hover)';
+                        const target = e.currentTarget as HTMLElement;
+                        target.style.color = 'var(--color-hover)';
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
+                        const target = e.currentTarget as HTMLElement;
+                        target.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
                       }
                     }}
                   >

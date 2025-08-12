@@ -1,8 +1,9 @@
-// src/app/layout.tsx - Version corrigée sans pageMetadata
+// src/app/layout.tsx - Version avec composant Logo
 import type { Metadata } from 'next';
 import { generateStructuredData } from '@/lib/metadata';
 import Navigation from '@/components/organisms/Navigation/Navigation';
 import './globals.css';
+import '../styles/header.css';
 
 export const metadata: Metadata = {
   title: 'La main verte Studio - Expertise numérique responsable',
@@ -104,9 +105,12 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
 
-        {/* Navigation - Composant externe 
-        <Navigation />
-        */}
+        {/* Header avec Logo - visible sur toutes les pages */}
+        <header>
+          {/* Navigation - Composant externe */}
+          <Navigation />
+        </header>
+
 
         {/* Contenu principal */}
         <main id="main-content">

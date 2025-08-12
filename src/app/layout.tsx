@@ -104,8 +104,9 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
 
-        {/* Navigation - Composant externe */}
+        {/* Navigation - Composant externe 
         <Navigation />
+        */}
 
         {/* Contenu principal */}
         <main id="main-content">

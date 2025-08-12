@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { X, Menu } from 'lucide-react';
 import logo from '@/app/assets/logo.svg';
 import logoEco from '@/app/assets/logo-eco.svg';
 
@@ -40,6 +41,7 @@ export default function Navigation({
   const isHomePage = pathname === '/';
   const [isEcoMode, setIsEcoMode] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -65,6 +67,32 @@ export default function Navigation({
     return () => observer.disconnect();
   }, []);
 
+  // Fermer le menu mobile quand on change de page
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Gestion de l'animation d'ouverture/fermeture
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      // Appliquer l'effet d'opacité au body (sauf logo)
+      document.body.style.setProperty('--mobile-menu-opacity', '0.3');
+      document.body.classList.add('mobile-menu-open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Retirer l'effet
+      document.body.style.removeProperty('--mobile-menu-opacity');
+      document.body.classList.remove('mobile-menu-open');
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.removeProperty('--mobile-menu-opacity');
+      document.body.classList.remove('mobile-menu-open');
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   if (!mounted) {
     return null;
   }
@@ -77,9 +105,9 @@ export default function Navigation({
   const getCurrentPageName = () => {
     const pathMap: { [key: string]: string } = {
       '/offres': 'offres',
-      '/demarche': 'démarche',
-      '/references': 'références',
-      '/a-propos': 'à propos',
+      '/demarche': 'demarche',
+      '/references': 'references',
+      '/a-propos': 'a-propos',
       '/blog': 'blog',
       '/contact': 'contact'
     };
@@ -87,20 +115,33 @@ export default function Navigation({
     return pathMap[pathname] || 'page';
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   const baseStyle: React.CSSProperties = {
     position: 'fixed',
-    top: 'var(--space-6)',
+    width: '100%',
+    height: '100svh',
+    padding: 'var(--space-10)',
     zIndex: 'var(--z-dropdown)' as any
   };
 
-  // Style spécifique pour la page d'accueil (droite)
+  // Style spécifique pour la page d'accueil (droite sur desktop)
   const homeNavStyle: React.CSSProperties = {
     ...baseStyle,
-    right: 'var(--space-10)'
   };
 
-  // Style spécifique pour les pages internes (toute la largeur)
+  // Style spécifique pour les pages internes (toute la largeur sur desktop)
   const internalNavStyle: React.CSSProperties = {
+    ...baseStyle,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'start'
+  };
+
+  // Style mobile pour toutes les pages
+  const mobileNavStyle: React.CSSProperties = {
     ...baseStyle,
     left: 0,
     right: 0,
@@ -108,8 +149,8 @@ export default function Navigation({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 'var(--space-10)',
-    paddingRight: 'var(--space-10)'
+    paddingLeft: 'var(--space-6)',
+    paddingRight: 'var(--space-6)'
   };
 
   const linkBaseStyle: React.CSSProperties = {
@@ -131,12 +172,233 @@ export default function Navigation({
     fontWeight: 'var(--font-weight-medium)'
   };
 
-  // Navigation pour la page d'accueil (horizontale à droite)
+  // Style pour les liens du menu mobile
+  const mobileLinkStyle: React.CSSProperties = {
+    position: 'relative',
+    display: 'inline-block',
+    color: 'var(--color-accent)',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    fontFamily: 'var(--font-primary)',
+    fontSize: 'var(--font-size-base)',
+    fontStyle: 'italic',
+    transition: 'color var(--transition-normal)',
+  };
+
+  const mobileActiveLinkStyle: React.CSSProperties = {
+    ...mobileLinkStyle,
+    color: 'var(--color-primary)',
+    fontWeight: 'var(--font-weight-medium)'
+  };
+
+  // Navigation pour la page d'accueil
   if (isHomePage) {
-    const mergedStyle = { ...homeNavStyle, ...style };
-    
     return (
-      <nav style={mergedStyle} className={className}>
+      <>
+        {/* CSS pour l'animation d'opacité */}
+        <style jsx global>{`
+          body.mobile-menu-open > *:not(nav):not([data-mobile-menu]) {
+            opacity: var(--mobile-menu-opacity, 1);
+            transition: opacity 250ms ease-in-out;
+          }
+          
+          body.mobile-menu-open nav {
+            opacity: 1 !important;
+          }
+        `}</style>
+
+        <nav style={homeNavStyle} className={className}>
+          {/* Navigation desktop - horizontale à droite */}
+          <ul style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 'var(--space-4)',
+            textAlign: 'right'
+          }}
+          className="hidden-xs"
+          >
+            {navigationItems.map((item, index) => {
+              const isActive = pathname === item.href || 
+                              (item.href !== '/' && pathname.startsWith(item.href));
+              
+              return (
+                <li key={index} style={{ margin: 0, padding: 0 }}>
+                  <Link 
+                    href={item.href}
+                    style={isActive && showActiveIndicator ? activeLinkStyle : linkBaseStyle}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = 'var(--color-hover)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = 'var(--color-accent)';
+                      }
+                    }}
+                    title={item.description}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Bouton hamburger mobile pour page d'accueil - position fixe en haut à droite */}
+        <button
+          onClick={toggleMobileMenu}
+          style={{
+            position: 'fixed',
+            top: 'var(--space-6)',
+            right: 'var(--space-10)',
+            background: 'none',
+            border: 'none',
+            color: 'var(--color-accent)',
+            cursor: 'pointer',
+            padding: 'var(--space-2)',
+            zIndex: 'var(--z-modal)' as any
+          }}
+          className="visible-xs"
+          aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Overlay mobile avec animation slide de gauche vers droite */}
+        <div
+          data-mobile-menu
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: isMobileMenuOpen ? 0 : '-100%',
+            width: '100%',
+            height: '100vh',
+            backgroundColor: 'var(--color-bg-primary)',
+            zIndex: '100' as any,
+            transition: 'left 250ms ease-in-out',
+            padding: 'var(--space-6)',
+            paddingTop: 'calc(var(--space-6) + 60px)', // Espace pour éviter le logo
+            boxShadow: isMobileMenuOpen ? '4px 0 20px rgba(0,0,0,0.1)' : 'none'
+          }}
+          className="visible-xs"
+        >
+          <nav>
+            <ul style={{
+              listStyle: 'none',
+              margin: 0,
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              {navigationItems.map((item, index) => {
+                const isActive = pathname === item.href || 
+                                (item.href !== '/' && pathname.startsWith(item.href));
+                
+                return (
+                  <li key={index} style={{ margin: 0, padding: 0 }}>
+                    <Link 
+                      href={item.href}
+                      style={isActive && showActiveIndicator ? mobileActiveLinkStyle : mobileLinkStyle}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.color = 'var(--color-hover)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </>
+    );
+  }
+
+  // Navigation pour les pages internes
+  return (
+    <>
+      {/* CSS pour l'animation d'opacité */}
+      <style jsx global>{`
+        body.mobile-menu-open > *:not(nav):not([data-mobile-menu]) {
+          opacity: var(--mobile-menu-opacity, 1);
+          transition: opacity 250ms ease-in-out;
+        }
+        
+        body.mobile-menu-open nav {
+          opacity: 1 !important;
+        }
+      `}</style>
+
+      <nav style={internalNavStyle} className={`${className} hidden-xs internal-nav`}>
+        {/* Logo + nom de page à gauche - Desktop */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'end',
+        }}>
+          <Link 
+            href="/"
+            style={{
+              display: 'block',
+              transition: 'transform var(--transition-normal)',
+              maxWidth: '180px',
+              flexShrink: 0
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            title="Retour à l'accueil"
+          >
+            <Image 
+              src={currentLogo}
+              alt={logoAlt}
+              style={{ 
+                width: '100%', 
+                height: 'auto',
+                display: 'block'
+              }}
+              priority
+            />
+          </Link>
+
+          {/* Séparateur et nom de page */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            fontFamily: 'var(--font-primary)',
+            fontSize: '1.4rem',
+            letterSpacing: '1px',
+            marginLeft: '-78px',
+            marginBottom: '7px',
+            color: 'var(--color-accent)'
+          }}>
+            <span style={{ fontWeight: 'var(--font-weight-bold)' }}>/</span>
+            <span style={{ 
+              fontStyle: 'italic',
+              fontWeight: 'var(--font-weight-bold)'
+            }}>
+              {getCurrentPageName()}
+            </span>
+          </div>
+        </div>
+
+        {/* Navigation horizontale à droite - Desktop */}
         <ul style={{
           listStyle: 'none',
           margin: 0,
@@ -144,7 +406,7 @@ export default function Navigation({
           display: 'flex',
           flexDirection: 'row',
           gap: 'var(--space-4)',
-          textAlign: 'right'
+          alignItems: 'center'
         }}>
           {navigationItems.map((item, index) => {
             const isActive = pathname === item.href || 
@@ -168,7 +430,6 @@ export default function Navigation({
                   title={item.description}
                 >
                   {item.label}
-                  {/* Indicateur visuel pour la page active */}
                   {isActive && showActiveIndicator && (
                     <span 
                       style={{
@@ -189,120 +450,137 @@ export default function Navigation({
           })}
         </ul>
       </nav>
-    );
-  }
 
-  // Navigation pour les pages internes (logo à gauche, nav à droite)
-  const mergedStyle = { ...internalNavStyle, ...style };
-  
-  return (
-    <nav style={mergedStyle} className={className}>
-      {/* Logo + nom de page à gauche */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'end',
-      }}>
-        <Link 
-          href="/"
-          style={{
-            display: 'block',
-            transition: 'transform var(--transition-normal)',
-            maxWidth: '180px',
-            flexShrink: 0
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-          title="Retour à l'accueil"
-        >
-          <Image 
-            src={currentLogo}
-            alt={logoAlt}
-            style={{ 
-              width: '100%', 
-              height: 'auto',
-              display: 'block'
-            }}
-            priority
-          />
-        </Link>
-
-        {/* Séparateur et nom de page */}
+      {/* Navigation mobile pour pages internes - Logo + Page courante */}
+      <div 
+        style={{
+          ...mobileNavStyle,
+          justifyContent: 'flex-start' // Aligné à gauche
+        }} 
+        className={`${className} visible-xs`}
+      >
+        {/* Logo + séparateur + page courante à gauche - identique au desktop */}
         <div style={{
           display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'var(--font-primary)',
-          fontSize: '1.4rem',
-          letterSpacing: '1px',
-          marginLeft: '-78px',
-          marginBottom: '7px',
-          color: 'var(--color-accent)'
+          alignItems: 'end',
         }}>
-          <span style={{ fontWeight: 'var(--font-weight-bold)' }}>/</span>
-          <span style={{ 
-            fontStyle: 'italic',
-            fontWeight: 'var(--font-weight-bold)'
+          <Link 
+            href="/"
+            style={{
+              display: 'block',
+              maxWidth: '180px', // Même taille que desktop
+              flexShrink: 0
+            }}
+          >
+            <Image 
+              src={currentLogo}
+              alt={logoAlt}
+              style={{ 
+                width: '100%', 
+                height: 'auto',
+                display: 'block'
+              }}
+              priority
+            />
+          </Link>
+
+          {/* Séparateur et nom de page - comme sur desktop */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            fontFamily: 'var(--font-primary)',
+            fontSize: '1.4rem',
+            letterSpacing: '1px',
+            marginLeft: '-78px',
+            marginBottom: '7px',
+            color: 'var(--color-accent)'
           }}>
-            {getCurrentPageName()}
-          </span>
+            <span style={{ fontWeight: 'var(--font-weight-bold)' }}>/</span>
+            <span style={{ 
+              fontStyle: 'italic',
+              fontWeight: 'var(--font-weight-bold)'
+            }}>
+              {getCurrentPageName()}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Navigation à droite */}
-      <ul style={{
-        listStyle: 'none',
-        margin: 0,
-        padding: 0,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 'var(--space-4)',
-        alignItems: 'center'
-      }}>
-        {navigationItems.map((item, index) => {
-          const isActive = pathname === item.href || 
-                          (item.href !== '/' && pathname.startsWith(item.href));
-          
-          return (
-            <li key={index} style={{ margin: 0, padding: 0 }}>
-              <Link 
-                href={item.href}
-                style={isActive && showActiveIndicator ? activeLinkStyle : linkBaseStyle}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = 'var(--color-hover)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = 'var(--color-accent)';
-                  }
-                }}
-                title={item.description}
-              >
-                {item.label}
-                {/* Indicateur visuel pour la page active */}
-                {isActive && showActiveIndicator && (
-                  <span 
-                    style={{
-                      position: 'absolute',
-                      right: '-8px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: '4px',
-                      height: '4px',
-                      backgroundColor: 'var(--color-primary)',
-                      borderRadius: '50%'
+      {/* Bouton hamburger mobile pour pages internes - position fixe en haut à droite */}
+      <button
+        onClick={toggleMobileMenu}
+        style={{
+          position: 'fixed',
+          top: 'var(--space-6)',
+          right: 'var(--space-10)',
+          background: 'none',
+          border: 'none',
+          color: 'var(--color-accent)',
+          cursor: 'pointer',
+          padding: 'var(--space-2)',
+          zIndex: '100' as any
+        }}
+        className="visible-xs"
+        aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Overlay mobile avec animation slide de gauche vers droite */}
+      <div
+        data-mobile-menu
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: isMobileMenuOpen ? 0 : '-100%',
+          width: '100%',
+          height: '100vh',
+          backgroundColor: 'var(--color-bg-primary)',
+          zIndex: '100' as any,
+          transition: 'left 250ms ease-in-out',
+          padding: 'var(--space-6)',
+          paddingTop: 'calc(var(--space-6) + 60px)', // Espace pour éviter le header
+          boxShadow: isMobileMenuOpen ? '4px 0 20px rgba(0,0,0,0.1)' : 'none'
+        }}
+        className="visible-xs"
+      >
+        <nav>
+          <ul style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            {navigationItems.map((item, index) => {
+              const isActive = pathname === item.href || 
+                              (item.href !== '/' && pathname.startsWith(item.href));
+              
+              return (
+                <li key={index} style={{ margin: 0, padding: 0 }}>
+                  <Link 
+                    href={item.href}
+                    style={isActive && showActiveIndicator ? mobileActiveLinkStyle : mobileLinkStyle}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = 'var(--color-hover)';
+                      }
                     }}
-                  />
-                )}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = isActive ? 'var(--color-primary)' : 'var(--color-accent)';
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 }
